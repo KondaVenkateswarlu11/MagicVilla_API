@@ -20,15 +20,23 @@ namespace MagicVilla_Web.Services
         {
             try
             {
-                var Client = httpClient.CreateClient("MagicVilla");
+                //Creating a Client
+                var client = httpClient.CreateClient("MagicAPI");
+                //Creating a Message and on this message we have configure a few things
                 HttpRequestMessage message = new HttpRequestMessage();
+                //Header type "Accept"
                 message.Headers.Add("Accept", "application/json");
+                //Url Where we have to call the API
                 message.RequestUri = new Uri(apiRequest.url);
+                //Data will not be null in POST or PUT calls
+                //that is why we are sending the serialized data 
                 if (apiRequest.Data != null)
                 {
                     message.Content = new StringContent(JsonConvert.SerializeObject(apiRequest.Data),
                         Encoding.UTF8, "application/json");
                 }
+                //What is HTTP type among the list[Get,Put,Post,Delete]
+                //That is why we have used Switch case 
                 switch (apiRequest.ApiType)
                 {
                     case SD.ApiType.POST:
@@ -44,12 +52,13 @@ namespace MagicVilla_Web.Services
                         message.Method = HttpMethod.Get;
                         break;
                 }
+                //We will set the response to null 
                 HttpResponseMessage apiResponse = null;
-
-                apiResponse = await Client.SendAsync(message);
-
+                //Here the ACtual Response will be stored 
+                apiResponse = await client.SendAsync(message);
+                //We neeed to Extract API content from apiResponse
                 var apiContent = await apiResponse.Content.ReadAsStringAsync();
-
+                //This ApiContent will be Deserialized 
                 var APIResponse = JsonConvert.DeserializeObject<T>(apiContent);
                 return APIResponse;
             }
