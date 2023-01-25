@@ -17,7 +17,7 @@ namespace MagicVilla_Web.Controllers
             _villaNumberService = villaNumberService;
             _mapper = mapper;
         }
-        public async Task<IActionResult> IndexNumberVilla()
+        public async Task<IActionResult> IndexVillaNumber()
         {
             List<VillaNumberDto> list = new();
             var response = await _villaNumberService.GetAllAsync<APIResponse>();

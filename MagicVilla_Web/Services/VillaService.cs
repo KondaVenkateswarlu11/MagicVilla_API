@@ -5,22 +5,22 @@ using MagicVilla_Web.Services.IServices;
 
 namespace MagicVilla_Web.Services
 {
-    public class VillaNumberService : BaseService, IVillaNumberService
+    public class VillaService : BaseService, IVillaService
     {
         private readonly IHttpClientFactory _clientFactory;
         private string villaUrl;
-        public VillaNumberService(IHttpClientFactory clientFactory,IConfiguration configuration) : base(clientFactory)
+        public VillaService(IHttpClientFactory clientFactory,IConfiguration configuration) : base(clientFactory)
         {
             _clientFactory= clientFactory;
             villaUrl = configuration.GetValue<string>("ServiceUrls:VillaAPI");
         }
-        public Task<T> CreateAsync<T>(VillaNumberCreateDto dto)
+        public Task<T> CreateAsync<T>(VillaCreateDto dto)
         {
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = SD.ApiType.POST,
                 Data = dto,
-                url = villaUrl + "/api/VillaNumberAPI"
+                url = villaUrl + "/api/VillaAPI"
             });
         }
 
@@ -30,7 +30,7 @@ namespace MagicVilla_Web.Services
             {
                 ApiType = SD.ApiType.DELETE,
 
-                url = villaUrl + "/api/VillaNumberAPI/" + id
+                url = villaUrl + "/api/VillaAPI/" + id
             });
         }
 
@@ -39,7 +39,7 @@ namespace MagicVilla_Web.Services
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = SD.ApiType.GET,
-                url = villaUrl + "/api/VillNumberaAPI"
+                url = villaUrl + "/api/VillaAPI"
             });
         }
 
@@ -53,13 +53,13 @@ namespace MagicVilla_Web.Services
             });
         }
 
-        public Task<T> UpdateAsync<T>(VillaNumberUpdateDto dto)
+        public Task<T> UpdateAsync<T>(VillaUpdateDto dto)
         {
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = SD.ApiType.PUT,
                 Data = dto,
-                url = villaUrl + "/api/VillaNumberAPI/" + dto.VillaNo
+                url = villaUrl + "/api/VillaAPI/" + dto.Id
             });
         }
     }
